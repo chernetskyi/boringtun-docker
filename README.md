@@ -3,6 +3,7 @@
 ## Supported tags and respective `Dockerfile` links
 
 - [`latest`, `bullseye`](https://github.com/chernetskyi/boringtun-docker/blob/main/Dockerfile.bullseye)
+- [`alpine`](https://github.com/chernetskyi/boringtun-docker/blob/main/Dockerfile.alpine)
 
 ## What is BoringTun?
 
