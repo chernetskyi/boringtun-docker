@@ -5,8 +5,11 @@ on:
     branches:
      - main
     paths:
-     - Dockerfile
+     - Dockerfile.bullseye
      - .github/workflows/push.yml
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/boringtun
 
 jobs:
   build-and-push-image:
@@ -30,8 +33,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          file: Dockerfile.bullseye
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/boringtun:latest
+          tags: ${{ env.IMAGE }}:latest, ${{ env.IMAGE }}:bullseye
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
