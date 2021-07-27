@@ -16,7 +16,7 @@
 
 ### WireGuard configuration file
 
-Provide WireGuard configuration file to `/etc/wireguard/wg0.cnf`.
+Provide WireGuard configuration file to `/etc/wireguard/${INTERFACE}.cnf`.
 
 `-v ./wireguard.conf:/etc/wireguard/wg0.conf`
 
@@ -28,6 +28,10 @@ Give extended privileges to this container `--privileged`.
 
 ### Environment variables
 
+`INTERFACE`
+
+Set the name of created interface. Respective WireGuard configuration file name is `/etc/wireguard/${INTERFACE}.cnf` Default: `wg0`.
+
 `WG_LOG_LEVEL`
 
 Set the verbosity level of logging messages. One of: `error`, `info`, `debug`, `trace`. Default: `info`.
@@ -35,6 +39,10 @@ Set the verbosity level of logging messages. One of: `error`, `info`, `debug`, `
 `WG_LOG_FILE`
 
 Set the logging file destination. Default: `/var/log/boringtun`.
+
+`WG_THREADS`
+
+Set the number of OS threads to use. Default: `4`.
 
 ## License
 
