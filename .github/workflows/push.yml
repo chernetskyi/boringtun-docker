@@ -6,6 +6,7 @@ on:
      - main
     paths:
      - Dockerfile.bullseye
+     - entrypoint.sh
      - .github/workflows/push.yml
 
 env:

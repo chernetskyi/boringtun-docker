@@ -8,12 +8,11 @@ FROM debian:bullseye-slim AS runtime
 COPY --from=build /boringtun/target/release/boringtun /bin
 RUN apt update && \
     apt install -y --no-install-suggests wireguard iproute2 iptables
+COPY entrypoint.sh .
 ENV INTERFACE=wg0 \
     WG_LOG_LEVEL=info \
     WG_LOG_FILE=/var/log/boringtun \
     WG_QUICK_USERSPACE_IMPLEMENTATION=boringtun \
     WG_SUDO=1
 EXPOSE 51820/udp
-CMD wg-quick up "${INTERFACE}" && \
-    echo "wg-quick has successfully finished.\n\nReading boringtun logs:" && \
-    tail -f "${WG_LOG_FILE}"
+ENTRYPOINT ["./entrypoint.sh"]
