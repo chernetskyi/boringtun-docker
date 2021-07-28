@@ -1,6 +1,8 @@
-name: Build and publish a Docker image on push
+name: Build and publish latest Docker image
 
 on:
+  schedule:
+    - cron: '0 12 * * *'
   push:
     branches:
      - main
@@ -8,7 +10,7 @@ on:
      - Dockerfile.alpine
      - Dockerfile.bullseye
      - entrypoint.sh
-     - .github/workflows/push.yml
+     - .github/workflows/latest.yml
 
 env:
   IMAGE: ghcr.io/${{ github.repository_owner }}/boringtun
@@ -32,8 +34,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.bullseye
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:bullseye
           push: true
-          tags: ${{ env.IMAGE }}:latest, ${{ env.IMAGE }}:bullseye
 
   build-and-push-alpine:
     runs-on: ubuntu-latest
@@ -53,5 +57,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: Dockerfile.alpine
-          push: true
           tags: ${{ env.IMAGE }}:alpine
+          push: true
