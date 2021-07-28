@@ -21,6 +21,7 @@ jobs:
       packages: write
 
     strategy:
+      fail-fast: false
       matrix:
         version: [alpine, bullseye]
         tag: ['0.3.0', '0.2.0']
