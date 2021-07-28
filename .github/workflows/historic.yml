@@ -1,0 +1,45 @@
+name: Build and publish historic Docker images
+
+on:
+  push:
+    branches:
+     - main
+    paths:
+     - Dockerfile.alpine
+     - Dockerfile.bullseye
+     - entrypoint.sh
+     - .github/workflows/historic.yml
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/boringtun
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        version: [alpine, bullseye]
+        tag: ['0.3.0', '0.2.0']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          file: Dockerfile.${{ matrix.version }}
+          build-args: COMMIT=v${{ matrix.tag }}
+          tags: ${{ env.IMAGE }}:${{ matrix.tag }}-${{ matrix.version }}
+          push: true

@@ -1,6 +1,8 @@
 FROM rust:bullseye AS build
-RUN git clone --depth=1 https://github.com/cloudflare/boringtun.git && \
+ARG COMMIT=master
+RUN git clone https://github.com/cloudflare/boringtun.git && \
     cd boringtun && \
+    git checkout ${COMMIT} && \
     cargo build --bin boringtun --release && \
     strip ./target/release/boringtun
 

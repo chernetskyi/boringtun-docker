@@ -1,7 +1,9 @@
 FROM rust:alpine AS build
+ARG COMMIT=master
 RUN apk add --no-cache git g++ && \
-    git clone --depth=1 https://github.com/cloudflare/boringtun.git && \
+    git clone https://github.com/cloudflare/boringtun.git && \
     cd boringtun && \
+    git checkout ${COMMIT} && \
     cargo build --bin boringtun --release && \
     strip ./target/release/boringtun
 
