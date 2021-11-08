@@ -23,8 +23,6 @@ Provide WireGuard configuration file to `/etc/wireguard/${INTERFACE}.cnf`.
 
 ### Privileges
 
-Enable IPv4 forwarding `--sysctl net.ipv4.ip_forward=1`.
-
 Give extended privileges to this container `--privileged`.
 
 ### Environment variables
